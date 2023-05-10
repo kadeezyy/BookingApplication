@@ -1,3 +1,7 @@
 .text-field::selection {
     background: rgb(120, 122, 235);
 }
+
+.text-field {
+    font-size: 35px;
+}

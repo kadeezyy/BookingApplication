@@ -1,6 +1,6 @@
 import './App.css';
 import Navbar from './components/Navbar'
-import SelectionBox from './components/SelectionBox';
+import SelectionBox from './components/SelectionBox/SelectionBox';
 import ShowCase from './components/ShowCase';
 import TextField from './components/TextField/TextField';
 function App() {
@@ -8,7 +8,7 @@ function App() {
     <div className="App">
       <Navbar />
       <ShowCase />
-      <TextField text={"Достигайте новых вершин продуктивности с нами"}/>
+      <TextField text={"Поднимите ваши деловые встречи на новые высоты"}/>
       <SelectionBox />
     </div>
   );
