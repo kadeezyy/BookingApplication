@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./DatePickerField.css"
-const DatePickerField = ({ handleChange }) => {
+const DatePickerField = ({ handleChange, selectedDate }) => {
     const [startDate, setStartDate] = useState(new Date());
+
+    useEffect(() => {
+        setStartDate(selectedDate);
+    }, [selectedDate]);
 
     return (
         <DatePicker

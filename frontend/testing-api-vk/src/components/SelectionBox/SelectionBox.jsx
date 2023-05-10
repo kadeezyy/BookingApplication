@@ -113,6 +113,8 @@ const SelectionBox = () => {
             roomRef.current.value = ""
             setRoom(null)
         }
+
+        setDate(new Date())
         
         if (comment !== "") {
             setComment("")
@@ -157,6 +159,7 @@ const SelectionBox = () => {
                     <div className="container" id="date">
                         Выберите дату и время
                         <DatePickerField handleChange={setDate}
+                        selectedDate={date} 
                         />
                     </div>
                 </li>
