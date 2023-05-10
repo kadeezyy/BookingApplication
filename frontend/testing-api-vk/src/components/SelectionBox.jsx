@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import SelectionField from './Selection/SelectionField'
-
+import SelectionField from './SelectionField/SelectionField'
+import DatePickerField from './DatePickerField/DatePickerField'
+import InputField from './InputField/InputField'
 const SelectionBox = () => {
     const buildingOptions = [
         { value: "A", label: "Башня А" },
@@ -10,7 +11,8 @@ const SelectionBox = () => {
     const [building, setBuilding] = useState(null)
     const [stage, setStage] = useState(null)
     const [room, setRoom] = useState(null)
-
+    const [openDate, setOpenDate] = useState(false);
+    const [date, setDate] = useState(new Date())
     const handleBuildingChange = (event) => {
         setBuilding(event.target.value);
     }
@@ -27,28 +29,40 @@ const SelectionBox = () => {
         <div id='selectionBox'>
             <ul className='list-group'>
                 <li className="list-group-item">
-                    <SelectionField options={buildingOptions} 
-                    onOptionChange={handleBuildingChange} 
-                    disabledOptionName={"Building"}/>
+                    <SelectionField options={buildingOptions}
+                        onOptionChange={handleBuildingChange}
+                        disabledOptionName={"Building"} />
                 </li>
                 <li className="list-group-item">
-                    <button className="btn btn-primary">Stage</button>
                     <SelectionField options={Array.from({ length: 25 }, (_, i) => {
-                        return { label: i + 3, value: i + 3}})
+                        return { label: i + 3, value: i + 3 }
+                    })
                     }
-                    onOptionChange={handleStageChange}
-                    disabledOptionName={"Stage"}/>
+                        onOptionChange={handleStageChange}
+                        disabledOptionName={"Stage"} />
                 </li>
                 <li className="list-group-item">
-                    <button className="btn btn-primary">Room</button>
                     <SelectionField options={Array.from({ length: 10 }, (_, i) => {
-                        return { label: i + 1, value: i + 1}})
+                        return { label: i + 1, value: i + 1 }
+                    })
                     }
-                    onOptionChange={handleRoomChange}
-                    disabledOptionName={"Room"}/>
+                        onOptionChange={handleRoomChange}
+                        disabledOptionName={"Room"} />
                 </li>
                 <li className="list-group-item">
-                    <button className="btn btn-primary">Date</button>
+                    Выберите дату и время
+                    <DatePickerField handleChange={setDate} />
+                </li>
+                <li className="list-group-item">
+                    <InputField />
+                </li>
+                <li className="list-group-item align-items-center">
+                    <button className="btn btn-outline-success me-5">
+                        Отправить
+                    </button>
+                    <button className="btn btn-outline-danger ">
+                        Очистить
+                    </button>
                 </li>
             </ul>
         </div>
