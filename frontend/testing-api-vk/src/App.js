@@ -1,4 +1,5 @@
 import './App.css';
+import Footer from './components/Footer/Footer';
 import Navbar from './components/Navbar'
 import SelectionBox from './components/SelectionBox/SelectionBox';
 import ShowCase from './components/ShowCase';
@@ -10,6 +11,7 @@ function App() {
       <ShowCase />
       <TextField text={"Поднимите ваши деловые встречи на новые высоты"}/>
       <SelectionBox />
+      <Footer />
     </div>
   );
 }

@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import "./SelectionField.css"
 
-const SelectionField = ({ options, onOptionChange, disabledOptionName }) => {
+const SelectionField = forwardRef(({ options, onOptionChange, disabledOptionName }, ref) => {
     return (
         <div className="main-div">
             <label className="select" htmlFor="slct">
-                <select id="slct" required onChange={onOptionChange}>
+                <select id="slct" required onChange={onOptionChange} ref={ref}>
                     <option value="" disabled selected>Select {disabledOptionName}</option>
                     {options.map((option, index) => (
                         <option key={index} value={option.value}>
@@ -26,6 +26,6 @@ const SelectionField = ({ options, onOptionChange, disabledOptionName }) => {
 
         </div>
     )
-}
+})
 
 export default SelectionField

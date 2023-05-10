@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import SelectionField from '../SelectionField/SelectionField'
 import DatePickerField from '../DatePickerField/DatePickerField'
 import InputField from '../InputField/InputField'
@@ -18,34 +18,70 @@ const SelectionBox = () => {
     })
 
     const [building, setBuilding] = useState(null)
+    const buildingRef = useRef(null)
     const [stage, setStage] = useState(null)
+    const stageRef = useRef(null)
     const [room, setRoom] = useState(null)
+    const roomRef = useRef(null)
     const [date, setDate] = useState(new Date())
-    const [comment, setComment] = useState(null)
+    const [comment, setComment] = useState("")
 
     const handleBuildingChange = (event) => {
         setBuilding(event.target.value);
+        delete_error_message("building")
     }
 
     const handleStageChange = (event) => {
         setStage(event.target.value);
+        delete_error_message("stage")
     }
 
     const handleRoomChange = (event) => {
         setRoom(event.target.value);
+        delete_error_message("room")
     }
 
     const handleCommentChange = (event) => {
         setComment(event.target.value);
+        // delete_error_message("comment")
+    }
+
+    const delete_error_message = (id) => {
+        let el = document.getElementById(id);
+        if (el.childElementCount > 1) {
+            el.lastChild.remove()
+        }
+    }
+
+    const error_message = (id) => {
+        let child = document.createElement('p')
+        let parent = document.getElementById(id);
+        if (parent.childElementCount > 1) {
+            return
+        }
+        child.setAttribute('className', 'error-message')
+        child.innerHTML = "Обязательное поле"
+        child.style.color = 'red'
+        parent.appendChild(child)
     }
 
     const validateFields = () => {
         if (building == null) {
-            console.log(document.querySelector('#building'))
-            document.getElementById("building").style.borderColor = "red"
+            error_message('building')
             return false
         }
-
+        if (stage == null) {
+            error_message('stage')
+            return false
+        }
+        if (room == null) {
+            error_message('room')
+            return false
+        }
+        if (date == null) {
+            error_message('date')
+            return false
+        }
         return true;
     }
 
@@ -53,17 +89,35 @@ const SelectionBox = () => {
         if (!validateFields()) {
             return
         }
-        console.log(building);
-        console.log(stage);
-        console.log(room);
-        console.log(date.toJSON());
-        console.log(comment)
+        const data = JSON.stringify({
+            building: building,
+            stage: stage,
+            room: room,
+            date: date,
+            comment: comment
+        })
+        console.log(data)
     }
 
+    const handleClear = () => {
+        if (buildingRef.current) {
+            buildingRef.current.value = ""
+            setBuilding(null)
+        }
+        if (stageRef.current) {
+            stageRef.current.value = ""
+            setStage(null)
+        }
 
-    /**
-        @todo: need to add footer and handling fields 
-    **/
+        if (roomRef.current) {
+            roomRef.current.value = ""
+            setRoom(null)
+        }
+        
+        if (comment !== "") {
+            setComment("")
+        }
+    }
 
     return (
         <div id='selectionBox'>
@@ -74,6 +128,7 @@ const SelectionBox = () => {
                         <SelectionField options={buildingOptions}
                             onOptionChange={handleBuildingChange}
                             disabledOptionName={"Building"}
+                            ref={buildingRef}
                         />
                     </div>
 
@@ -84,6 +139,7 @@ const SelectionBox = () => {
                         <SelectionField options={stages}
                             onOptionChange={handleStageChange}
                             disabledOptionName={"Stage"}
+                            ref={stageRef}
                         />
                     </div>
                 </li>
@@ -93,6 +149,7 @@ const SelectionBox = () => {
                         <SelectionField options={rooms}
                             onOptionChange={handleRoomChange}
                             disabledOptionName={"Room"}
+                            ref={roomRef}
                         />
                     </div>
                 </li>
@@ -106,7 +163,7 @@ const SelectionBox = () => {
                 <li className="list-group-item">
                     <div className="container" id="comment">
                         Оставьте комментарий
-                        <InputField handleCommentChange={handleCommentChange}/>
+                        <InputField handleCommentChange={handleCommentChange} value={comment} />
                     </div>
                 </li>
                 <li className="list-group-item align-items-center">
@@ -115,7 +172,8 @@ const SelectionBox = () => {
                             onClick={handleSubmit}>
                             Отправить
                         </button>
-                        <button className="btn btn-outline-danger ">
+                        <button className="btn btn-outline-danger"
+                            onClick={handleClear}>
                             Очистить
                         </button>
                     </div>
